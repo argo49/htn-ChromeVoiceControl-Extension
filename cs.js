@@ -34,14 +34,11 @@ window.onload = function () {
     chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {
         if (msg.action == 'start-listening') {
             // Tiem 2 start listening
-            alert('inject script');
+            console.log('inject script');
             // Inject listening scripts
             injectScript(chrome.extension.getURL('scripts/microphone.js'));
             injectScript(chrome.extension.getURL('scripts/jquery.min.js'));
             injectScript(chrome.extension.getURL('scripts/recording.js'));
-
-
-
 
         }
     });
