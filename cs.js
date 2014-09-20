@@ -15,31 +15,43 @@ window.onload = function () {
     injectScript(chrome.extension.getURL('scripts/index.js'));
     injectScript('https://cdn.socket.io/socket.io-1.0.6.js');
 
-    function injectScript(script) {
+    function injectScript(script, id) {
         var scriptContainer = document.createElement('script');
         scriptContainer.src = script;
+        scriptContainer.id  = id;
         document.getElementsByTagName('body')[0].appendChild(scriptContainer);
     }
 
-    function injectStyle() {
-        var scriptContainer = document.createElement('link');
-        scriptContainer.src = script;
+    function injectStyle(style) {
+        console.log(style);
+        var scriptContainer  = document.createElement('link');
+        scriptContainer.rel  = "stylesheet";
+        scriptContainer.type = "text/css";
+        scriptContainer.src  = style;
+        console.log(scriptContainer);
         document.getElementsByTagName('body')[0].appendChild(scriptContainer);
     }
 
-    function nowRecording () {
-        // var div
-    }
+    var hasScript = false;
 
     chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {
         if (msg.action == 'start-listening') {
-            // Tiem 2 start listening
-            console.log('inject script');
-            // Inject listening scripts
-            injectScript(chrome.extension.getURL('scripts/microphone.js'));
-            injectScript(chrome.extension.getURL('scripts/jquery.min.js'));
-            injectScript(chrome.extension.getURL('scripts/recording.js'));
 
+            hasScript = document.getElementById('wit-microphone-script') ? true : false;
+
+            // Inject listening scripts
+            if (!hasScript) {
+                console.log('inject script');
+                injectScript(chrome.extension.getURL('scripts/microphone.js'), 'wit-microphone-script');
+                injectScript(chrome.extension.getURL('scripts/jquery.min.js'));
+                injectScript(chrome.extension.getURL('scripts/recording.js'));
+                injectStyle(chrome.extension.getURL('styles/    styles.css'));
+            } else {
+                document.getElementById('wit-microphone').click();
+            }
+
+        } else if (msg.action == 'stop-listening') {
+            document.getElementById('wit-microphone').click();
         }
     });
 }
