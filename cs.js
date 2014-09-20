@@ -12,4 +12,10 @@ window.onload = function () {
     scriptContainer.src = 'https://cdn.socket.io/socket.io-1.0.6.js';
     document.getElementsByTagName('body')[0].appendChild(scriptContainer);
 
+    chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {
+        if (msg.action == 'start-listening') {
+            // Tiem 2 start listening
+            alert("I'm all ears!");
+        }
+    });
 }
