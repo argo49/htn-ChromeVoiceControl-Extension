@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "Stock Hover",
+  "name": "ChromeVoiceControl",
   "version": "0.0.1",
-  "description": "Sample extension using Bloomberg",
+  "description": "Sample extension using Wit.ai",
   "content_scripts": [
     {
       "matches": ["*://*/*"],
@@ -12,5 +12,22 @@
   ],
   "web_accessible_resources": [
     "scripts/*.js"
-  ]
+  ],
+  "permissions" : [
+    "tabs",
+    "audioCapture"
+  ],
+  "commands": {
+    "start-listening": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+V",
+        "mac": "Command+Shift+V"
+      },
+      "description": "Toggle device microphone"
+    }
+  },
+  "background": {
+    "scripts": ["scripts/background.js"],
+    "persistent": true
+  }
 }
