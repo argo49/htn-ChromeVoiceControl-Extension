@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "ChromeVoiceControl",
   "version": "0.0.1",
-  "description": "Sample extension using Wit.ai",
+  "description": "Open and close tabs using Wit.ai",
   "content_scripts": [
     {
       "matches": ["*://*/*"],
@@ -12,7 +12,8 @@
   ],
   "web_accessible_resources": [
     "scripts/*.js",
-    "styles/*.css"
+    "styles/*.css",
+    "images/*.*"
   ],
   "permissions" : [
     "tabs",

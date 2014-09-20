@@ -23,12 +23,10 @@ window.onload = function () {
     }
 
     function injectStyle(style) {
-        console.log(style);
         var scriptContainer  = document.createElement('link');
         scriptContainer.rel  = "stylesheet";
         scriptContainer.type = "text/css";
         scriptContainer.src  = style;
-        console.log(scriptContainer);
         document.getElementsByTagName('body')[0].appendChild(scriptContainer);
     }
 
@@ -41,7 +39,6 @@ window.onload = function () {
 
             // Inject listening scripts
             if (!hasScript) {
-                console.log('inject script');
                 injectScript(chrome.extension.getURL('scripts/microphone.js'), 'wit-microphone-script');
                 injectScript(chrome.extension.getURL('scripts/jquery.min.js'));
                 injectScript(chrome.extension.getURL('scripts/recording.js'));

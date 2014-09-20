@@ -28,9 +28,44 @@ function record () {
       }
     };
     mic.onaudiostart = function () {
+        var body = $('body');
+        // I know this is terrible: should fix later with propr css
+        body.append($('<div id="wit-recording"/>')
+            .text('Listening...')
+            .css({
+                backgroundColor:"rgba(0,0,0,0.5)",
+                color: '#f4f4f4',
+                position:'fixed',
+                top: 0,
+                left: 0,
+                padding:'10px'
+            })
+            .prepend($('<div id="wit-recording-status"/>')
+                .css({
+                    backgroundColor:'red',
+                    height: '10px',
+                    width: '10px',
+                    float: 'left',
+                    marginRight: '10px',
+                    marginTop : '2px'
+                })
+            )
+        );
       console.log("Recording started");
     };
     mic.onaudioend = function () {
+        $('#wit-recording').text('Processing...')
+        .prepend($('<div id="wit-recording-status"/>')
+                .css({
+                    backgroundColor:'yellow',
+                    height: '10px',
+                    width: '10px',
+                    float: 'left',
+                    marginRight: '10px',
+                    marginTop : '2px'
+                })
+            )
+        //$('#wit-recording-status').css({backgroundColor: 'yellow'})
       console.log("Recording stopped, processing started");
     };
     mic.onerror = function (err) {
@@ -38,26 +73,27 @@ function record () {
     };
 
     mic.onresult = function (intent, entities) {
+        $('#wit-recording').remove();
 
-        // buruc mojo
+        /* buruc mojo
 
         //OPEN intention
         if(intent == 'open'){
             //gets all tabs with specified properties or all if no properties specified
-            chrome.tabs.query( { }, function(array_of_Tabs){
+            chrome.tabs.query( { }, function(array_of_Tabs) {
 
-                for (1 = 0; i < array_of_Tabs.length; i++){
+                for (i = 0; i < array_of_Tabs.length; i++){
                     var tab = array_of_Tabs[i];
-                    //switch to this tab  
+                    //switch to this tab
                     if ((tab.url).contains(entities)){
-                        chrome.tabs.update(tab.tabId, {active: true});  
+                        chrome.tabs.update(tab.tabId, {active: true});
                     }
                     //create the new tab
                     else{
                         chrome.tabs.create('http://www.' + entities + '.com');
-                    }                  
+                    }
                 }
-            }
+            });
         }
 
         //CLOSE intention
@@ -65,22 +101,22 @@ function record () {
             //gets tabs with specified properties or all if no properties specified
             chrome.tabs.query( { }, function(array_of_Tabs){
 
-                for (1 = 0; i < array_of_Tabs.length; i++){
+                for (i = 0; i < array_of_Tabs.length; i++){
                     var tab = array_of_Tabs[i];
                     //close this tab
                     if ((tab.url).contains(entities)){
-                        chrome.tabs.remove(tab.tabId);  
+                        chrome.tabs.remove(tab.tabId);
                     }
                     //create the new tab
                     else{
                         break;//tab to be closed in fact does not exist, do nothing.
-                    }                  
+                    }
                 }
-            }
+            });
         }
 
 
-
+*/
 
       console.log(intent, entities);
 
