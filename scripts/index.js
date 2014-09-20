@@ -3,7 +3,7 @@ waitForSocketIO();
 
 function waitForSocketIO  () {
     if (typeof io === 'undefined') {
-        console.log('waiting...');
+        console.log('waiting for socket.io ...');
         window.setTimeout(waitForSocketIO, 10);
     } else {
         runSocketIO();
