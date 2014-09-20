@@ -31,5 +31,8 @@
   "background": {
     "scripts": ["scripts/background.js"],
     "persistent": true
+  },
+  "externally_connectable": {
+    "matches": ["*://*/*"]
   }
 }

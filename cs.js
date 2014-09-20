@@ -35,6 +35,8 @@ window.onload = function () {
     chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {
         if (msg.action == 'start-listening') {
 
+            loadDataTransferDiv();
+
             hasScript = document.getElementById('wit-microphone-script') ? true : false;
 
             // Inject listening scripts
@@ -51,4 +53,18 @@ window.onload = function () {
             document.getElementById('wit-microphone').click();
         }
     });
+
+    function loadDataTransferDiv() {
+        var transferDiv = document.createElement('div');
+        transferDiv.id  = "myCustomEventDiv";
+        document.getElementsByTagName('body')[0].appendChild(transferDiv);
+
+        var port = chrome.extension.connect();
+        document.getElementById('myCustomEventDiv').addEventListener('myCustomEvent', function() {
+            var eventData = document.getElementById('myCustomEventDiv').innerText;
+            console.log(eventData);
+            port.postMessage({message: "myCustomEvent", values: eventData});
+        });
+    }
+
 }

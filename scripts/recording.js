@@ -17,6 +17,8 @@ var mic;
 function record () {
 
     $('<div id="wit-microphone"/>').appendTo($('body')).css('display','none');
+    $('<div id="myCustomEventDiv"/>').appendTo($('body')).css('display','none');
+    $('<div id="wit-entities"/>').appendTo($('body')).css('display','none');
 
     mic = new Wit.Microphone(document.getElementById("wit-microphone"));
 
@@ -75,50 +77,17 @@ function record () {
     mic.onresult = function (intent, entities) {
         $('#wit-recording').remove();
 
-        /* buruc mojo
-
-        //OPEN intention
-        if(intent == 'open'){
-            //gets all tabs with specified properties or all if no properties specified
-            chrome.tabs.query( { }, function(array_of_Tabs) {
-
-                for (i = 0; i < array_of_Tabs.length; i++){
-                    var tab = array_of_Tabs[i];
-                    //switch to this tab
-                    if ((tab.url).contains(entities)){
-                        chrome.tabs.update(tab.tabId, {active: true});
-                    }
-                    //create the new tab
-                    else{
-                        chrome.tabs.create('http://www.' + entities + '.com');
-                    }
-                }
-            });
+        var customEvent = document.createEvent('Event');
+        customEvent.initEvent('myCustomEvent', true, true);
+        function fireCustomEvent(data) {
+            hiddenDiv = document.getElementById('myCustomEventDiv');
+            hiddenDiv.innerText = JSON.stringify(data);
+            hiddenDiv.dispatchEvent(customEvent);
         }
 
-        //CLOSE intention
-        else{
-            //gets tabs with specified properties or all if no properties specified
-            chrome.tabs.query( { }, function(array_of_Tabs){
+        fireCustomEvent({"intent": intent, "entities": entities})
 
-                for (i = 0; i < array_of_Tabs.length; i++){
-                    var tab = array_of_Tabs[i];
-                    //close this tab
-                    if ((tab.url).contains(entities)){
-                        chrome.tabs.remove(tab.tabId);
-                    }
-                    //create the new tab
-                    else{
-                        break;//tab to be closed in fact does not exist, do nothing.
-                    }
-                }
-            });
-        }
-
-
-*/
-
-      console.log(intent, entities);
+        console.log(intent, entities);
 
     };
 
