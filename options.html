@@ -17,7 +17,7 @@
         p, label {
             font-family: 'Lato';
         }
-        label, .group .group-urls li {
+        label, .group .group-urls li, .delete-group {
             cursor: pointer;
         }
 
@@ -30,6 +30,7 @@
             border: 1px solid black;
             border-radius: 15px;
             margin: 10px;
+            position: relative;
         }
 
         .group label {
@@ -38,6 +39,13 @@
 
         .group .new-url {
             width: 85%;
+        }
+
+        .group .delete-group {
+            color: red;
+            position: absolute;
+            right: 10px;
+            top: 10px;
         }
 
     </style>

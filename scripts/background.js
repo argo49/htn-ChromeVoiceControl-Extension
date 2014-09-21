@@ -1,5 +1,6 @@
-bundles_list = [];
-url_list = [];
+var groups = {};
+
+loadGroups();
 
 chrome.commands.onCommand.addListener(function(command) {
     var isListening = false;
@@ -12,7 +13,6 @@ chrome.commands.onCommand.addListener(function(command) {
                 isListening = false;
                 chrome.tabs.sendMessage(tabs[0].id, {action: "stop-listening"}, function(response) {});
             }
-
         });
     }
 });
@@ -23,8 +23,15 @@ function getEntityType(entities) {
     }
 }
 
+function loadGroups () {
+    chrome.storage.sync.get("groups", function(value) {
+        console.log("loaded value: ", value);
+        groups = value.groups;
+    });
+}
+
 function getBundles(){
-    dictionray_passed = chrome.storage.sync.get( function() );
+    dictionray_passed = chrome.storage.sync.get( function() {});
 
     for (key in dictionray_passed){
         bundles_list.push(key);//list of all user's bundles
@@ -45,20 +52,22 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
     //OPEN
     if(intent == 'open'){
-        query = query.replace(/ /g, "");
 
-        getBundles();//call function to execute here
-
-        //Yes, it's a bundle
-        if(bundles_list.indexOf(query) > -1){
-            for (value in url_list){
-                var site = url_list[value];
-                chrome.tabs.create({url:'http://' + site});//create tab
+        var aGroup = false;
+        for (var prop in groups) {
+            console.log(query, prop, query.toLowerCase() == prop.toLowerCase());
+            if (query.toLowerCase() == prop.toLowerCase()) {
+                aGroup = true;
+                for (var i = 0; i < groups[prop].length; i++) {
+                    chrome.tabs.create({url:'http://www.' + groups[prop][i]});
+                }
             }
         }
 
         //No, it's a website instead
-        else{
+        if (!aGroup) {
+            query = query.replace(/ /g, "");
+
             //gets all tabs with specified properties or all if no properties specified
             chrome.tabs.query({}, function(array_of_Tabs){
 
