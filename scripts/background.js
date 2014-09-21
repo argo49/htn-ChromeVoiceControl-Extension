@@ -14,60 +14,85 @@ chrome.commands.onCommand.addListener(function(command) {
     }
 });
 
+function getEntityType(entities) {
+    for (var prop in entities) {
+        return prop;
+    }
+}
+
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     console.log("onMessage:", request);
 
     var intent   = request.intent;
     var entities = request.entities;
 
-    // I have to do it this way
-    var j = 0;
-    var query = {};
-    for (var prop in entities) {
-        query[prop] = entities[prop];
-        j++;
-    }
-    query = query[0];
-    query = query.body.replace(/ /g, "");
+    queryType = getEntityType(entities);
+    query = entities[queryType]['body'].toLowerCase();
+
+    console.log(queryType);
 
     if(intent == 'open'){
+        query = query.replace(/ /g, "");
+
+
         //gets all tabs with specified properties or all if no properties specified
         chrome.tabs.query({}, function(array_of_Tabs){
+
             var foundExistingTab = false;
             for (i = 0; i < array_of_Tabs.length; i++){
-                console.log('1');
                 var tab = array_of_Tabs[i];
 
                 //switch to this tab
                 if ((tab.url).indexOf(query) > -1){
-                    chrome.tabs.update(tab.tabId, {selected: true});
+                    chrome.tabs.update(tab.id, {selected: true});
                     i = array_of_Tabs.length;
                     foundExistingTab = true;
-                    console.log('Found foundExistingTab');
                 }
             }
 
             if (!foundExistingTab) {
-                chrome.tabs.create({url:'http://www.' + query + '.com/'});
+                if (queryType == "search_query") {
+                    chrome.tabs.create({url:'http://www.' + query + '.com/'});
+                } else {
+                    chrome.tabs.create({url:'http://www.' + query});
+                }
             }
         });
 
-    }
+    } else if (intent == "close") {
+        //CLOSE intention
+        query = query.replace(/ /g, "");
 
-    //CLOSE intention
-    else if (intent == "close"){
-        console.log('!');
         //gets tabs with specified properties or all if no properties specified
         chrome.tabs.query({}, function(array_of_Tabs){
+
+            if (query == "currenttab" || query == "tab" || query == "thistab") {
+                closeCurrentTab();
+            }
+
+            if (queryType == "search_query") {
+                query = "." + query + ".";
+            }
 
             for (i = 0; i < array_of_Tabs.length; i++){
                 var tab = array_of_Tabs[i];
                 //close this tab
-                if ((tab.url).indexOf(entities) > -1){
-                    chrome.tabs.remove(tab.tabId);
+                console.log(tab.url, query);
+                if ((tab.url).indexOf(query) > -1){
+                    console.log(tab.url);
+                    chrome.tabs.remove(tab.id);
                 }
             }
-
         });
+    } else if (intent == "search") {
+        chrome.tabs.create({url:query});
+    } else if (intent == "switch") {
+
     }
 });
+
+function closeCurrentTab() {
+    chrome.tabs.query({active: true, currentWindow: true}, function(arrayOfTabs) {
+        chrome.tabs.remove(arrayOfTabs[0].id);
+    });
+}

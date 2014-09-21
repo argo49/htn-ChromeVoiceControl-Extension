@@ -40,7 +40,8 @@ function record () {
                 position:'fixed',
                 top: 0,
                 left: 0,
-                padding:'10px'
+                padding:'10px',
+                zIndex: 10000
             })
             .prepend($('<div id="wit-recording-status"/>')
                 .css({
@@ -72,10 +73,25 @@ function record () {
     };
     mic.onerror = function (err) {
       console.log("Error: " + err);
+
+      $('#wit-recording').text('There was an error processing your request!')
+        .prepend($('<div id="wit-recording-status"/>')
+                .css({
+                    backgroundColor:'#f4f4f4',
+                    height: '10px',
+                    width: '10px',
+                    float: 'left',
+                    marginRight: '10px',
+                    marginTop : '2px'
+                })
+            )
+        window.setTimeout(function () {
+            $('#wit-recording').fadeOut(function () { $(this).remove() });
+        }, 1500);
     };
 
     mic.onresult = function (intent, entities) {
-        $('#wit-recording').remove();
+        $('#wit-recording').fadeOut(function () { $(this).remove() });
 
         var customEvent = document.createEvent('Event');
         customEvent.initEvent('myCustomEvent', true, true);
