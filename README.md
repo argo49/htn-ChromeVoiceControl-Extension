@@ -1,5 +1,7 @@
 # htn-ChromeVoiceControl-Extension
 
+A [Hack the North](http://hackthenorth.com) project.
+
 ## a.k.a [SpeakUp](http://challengepost.com/software/speakup)
 
 The SpeakUp Chrome extension allows you to open, close and switch to different tabs using your voice. You can also open customized groups of tabs through a group name.
