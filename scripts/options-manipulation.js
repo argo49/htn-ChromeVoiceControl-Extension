@@ -93,7 +93,7 @@ $(document).ready(function () {
     function insertGroup () {
         $('.notification h3').remove();
         var group      = $('<div class="group"/>');
-        var titleLabel = $('<label for="group-' + groups.length + '-name"/>').text('New Group');
+        var titleLabel = $('<label for="group-name"/>').text('New Group');
         var titleInput = $('<input class="group-name" type="text" placeholder="Enter new group name"/>');
         var title      = $('<h3 class="group-title"/>');
 
