@@ -20,6 +20,16 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     var intent   = request.intent;
     var entities = request.entities;
 
+    // I have to do it this way
+    var j = 0;
+    var query = {};
+    for (var prop in entities) {
+        query[prop] = entities[prop];
+        j++;
+    }
+    query = query[0];
+    query = query.body.replace(/ /g, "");
+
     if(intent == 'open'){
         //gets all tabs with specified properties or all if no properties specified
         chrome.tabs.query({}, function(array_of_Tabs){
@@ -27,16 +37,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
             for (i = 0; i < array_of_Tabs.length; i++){
                 console.log('1');
                 var tab = array_of_Tabs[i];
-
-                // I have to do it this way
-                var j = 0;
-                var query = {};
-                for (var prop in entities) {
-                    query[j] = entities[prop];
-                    j++;
-                }
-                query = query[0];
-                query = query.body.replace(/ /g, "");
 
                 //switch to this tab
                 if ((tab.url).indexOf(query) > -1){
@@ -55,21 +55,19 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     }
 
     //CLOSE intention
-    else{
+    else if (intent == "close"){
+        console.log('!');
         //gets tabs with specified properties or all if no properties specified
-        chrome.tabs.query( { }, function(array_of_Tabs){
+        chrome.tabs.query({}, function(array_of_Tabs){
 
             for (i = 0; i < array_of_Tabs.length; i++){
                 var tab = array_of_Tabs[i];
                 //close this tab
-                if ((tab.url).contains(entities)){
+                if ((tab.url).indexOf(entities) > -1){
                     chrome.tabs.remove(tab.tabId);
                 }
-                //create the new tab
-                else{
-                    break;//tab to be closed in fact does not exist, do nothing.
-                }
             }
+
         });
     }
 });
