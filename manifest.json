@@ -1,9 +1,13 @@
 {
   "manifest_version": 2,
   "name": "SpeakUp",
+  "short_name":"SpeakUp",
   "version": "0.0.1",
-  "description": "Open and close tabs using Wit.ai",
+  "description": "Open, close and switch tabs using Wit.ai",
   "options_page": "options.html",
+  "icons": { "16": "images/icon16.png",
+           "48": "images/icon32.png",
+          "128": "images/icon128.png" },
   "content_scripts": [
     {
       "matches": ["*://*/*"],
@@ -35,6 +39,6 @@
     "persistent": true
   },
   "externally_connectable": {
-    "matches": ["*://*/*"]
+    "matches": ["<all_urls>"]
   }
 }

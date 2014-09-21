@@ -68,8 +68,13 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         });
     //SEARCH
     } else if (intent == "search") {
-        chrome.tabs.create({url:query});
+
     //SWITCH
+
+        query = query.replace(/ /g, "%20");
+        query = "%27" + query + "%27";
+        chrome.tabs.create({url:'https://api.datamarket.azure.com/Bing/Search/v1/Web?Query=' + query});
+
     } else if (intent == "switch_to") {
         query = query.replace(/ /g, "");
 
@@ -79,8 +84,13 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
                 //switch to this tab
                 if ((tab.url).indexOf(query) > -1){
-                    chrome.tabs.update(tab.id, {selected: true});
-                    i = array_of_Tabs.length;
+
+                    chrome.tabs.query({active: true, currentWindow: true}, function(arrayOfTabs) {
+                        if (tab.id != arrayOfTabs[0].id) {
+                            chrome.tabs.update(tab.id, {selected: true});
+                            i = array_of_Tabs.length;
+                        }
+                    });
                 }
             }
 
