@@ -1,3 +1,6 @@
+bundles_list = [];
+url_list = [];
+
 chrome.commands.onCommand.addListener(function(command) {
     var isListening = false;
     if (command == "start-listening") {
@@ -20,6 +23,15 @@ function getEntityType(entities) {
     }
 }
 
+function getBundles(){
+    dictionray_passed = chrome.storage.sync.get( function() );
+
+    for (key in dictionray_passed){
+        bundles_list.push(key);//list of all user's bundles
+        url_list = dictionray_passed[key];//list of all websites for this bundle
+    }
+}
+
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     console.log("onMessage:", request);
 
@@ -35,16 +47,29 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     if(intent == 'open'){
         query = query.replace(/ /g, "");
 
-        //gets all tabs with specified properties or all if no properties specified
-        chrome.tabs.query({}, function(array_of_Tabs){
+        getBundles();//call function to execute here
 
-            if (queryType == "search_query") {
-                chrome.tabs.create({url:'http://www.' + query + '.com/'});
-            } else {
-                chrome.tabs.create({url:'http://www.' + query});
+        //Yes, it's a bundle
+        if(bundles_list.indexOf(query) > -1){
+            for (value in url_list){
+                var site = url_list[value];
+                chrome.tabs.create({url:'http://' + site});//create tab
             }
+        }
 
-        });
+        //No, it's a website instead
+        else{
+            //gets all tabs with specified properties or all if no properties specified
+            chrome.tabs.query({}, function(array_of_Tabs){
+
+                if (queryType == "search_query") {
+                    chrome.tabs.create({url:'http://www.' + query + '.com/'});
+                } else {
+                    chrome.tabs.create({url:'http://www.' + query});
+                }
+
+            });
+        }
 
     //CLOSE
     } else if (intent == "close") {
@@ -97,14 +122,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         });
     }
 
-    //BUNDLE
-    else if(intent == "use" && entities == dictionary_passed[first_key]){
-        //loop through user's saved bundle
-        for (var key in dictionary_passed){
-            var value = dictionary_passed[key];
-            chrome.tabs.create({url:'http://' + value});//create tab
-        }
-    }
 });
 
 function closeCurrentTab() {
