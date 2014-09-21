@@ -12,11 +12,51 @@ $(document).ready(function () {
 
     }
 
-    function insertGroup () {
+    function renderOptions () {
+        for (var prop in groups) {
+            showGroup(prop, groups[prop]);
+        }
+    }
+
+    function showGroup (group, items) {
+        $('.notification h3').remove();
         var group = $('<div class="group"/>');
+        var title = $('<h3 class="group-title"/>');
+        var urls  = $('<ul/>').addClass('group-urls');
+
+        for (var i = 0; i < items.length; i++) {
+            var urlItem = $('<li/>');
+            urls.append(urlItem.text(items[i]));
+            urlItem.on('click', removeUrl);
+        }
+
+        var newUrlInput = $('<input type="text" class="new-url" placeholder="eg. http://google.com/"/>');
+        var newUrlLabel = $('<label/>').text('Add URL');
+
+        group.prepend(title);
+        group.append(urls);
+        group.append(newUrlLabel);
+        group.append(newUrlInput)
+    }
+
+    function removeUrl () {
+        var strUrls = groups[$(this).parent().siblings('.group-title').text()];
+        for (var i = 0; i < strUrls.length; i++) {
+            if ($(this).text().indexOf(strUrls[i]) > -1) {
+                strUrls.splice(i, 1);
+                // Save
+            }
+        }
+        groups[$(this).siblings('.group-title').text()];
+        $(this).remove();
+    }
+
+    function insertGroup () {
+        $('.notification h3').remove();
+        var group      = $('<div class="group"/>');
         var titleLabel = $('<label for="group-' + groups.length + '-name"/>').text('New Group');
         var titleInput = $('<input class="group-name" type="text" placeholder="Enter new group name"/>');
-        var title = $('<h3 class="group-title"/>');
+        var title      = $('<h3 class="group-title"/>');
 
         var urls = $('<ul/>').addClass('group-urls');
 
@@ -41,18 +81,7 @@ $(document).ready(function () {
                 if (e.which == 13 && this.value) {
                     var urlItem = $('<li/>');
 
-                    urlItem.on('click', function () {
-                        var strUrls = groups[$(this).parent().siblings('.group-title').text()];
-                        for (var i = 0; i < strUrls.length; i++) {
-                            if ($(this).text().indexOf(strUrls[i]) > -1) {
-                                console.log(strUrls[i]);
-                                strUrls.splice(i, 1);
-                                // Save
-                            }
-                        }
-                        groups[$(this).siblings('.group-title').text()];
-                        $(this).remove();
-                    });
+                    urlItem.on('click', removeUrl);
 
                     urls.append(urlItem.text(this.value + " x"));
                     groups[$(this).siblings('.group-title').text()].push(this.value);
