@@ -23,10 +23,11 @@ function getEntityType(entities) {
     }
 }
 
-function loadGroups () {
+function loadGroups (action) {
     chrome.storage.sync.get("groups", function(value) {
         console.log("loaded value: ", value);
         groups = value.groups;
+        action();
     });
 }
 
@@ -41,12 +42,13 @@ function getBundles(){
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     console.log("onMessage:", request);
+    loadGroups(function () {
 
     var intent   = request.intent;
     var entities = request.entities;
 
     queryType = getEntityType(entities);
-    query = entities[queryType]['body'].toLowerCase();
+    query     = entities[queryType]['body'].toLowerCase();
 
     console.log(queryType);
 
@@ -130,6 +132,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
         });
     }
+
+}); // end loadOptions
 
 });
 
