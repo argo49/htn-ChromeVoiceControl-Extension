@@ -102,6 +102,9 @@ $(document).ready(function () {
         titleInput.on('keyup', function (e) {
 
             if (e.which == 13 && this.value) {
+                if (!groups) {
+                    groups = {};
+                }
                 groups[this.value] = [];
                 saveOptions();
                 titleLabel.remove();
