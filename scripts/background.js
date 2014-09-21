@@ -34,50 +34,30 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     if(intent == 'open'){
         query = query.replace(/ /g, "");
 
-
         //gets all tabs with specified properties or all if no properties specified
         chrome.tabs.query({}, function(array_of_Tabs){
 
-            var foundExistingTab = false;
-            for (i = 0; i < array_of_Tabs.length; i++){
-                var tab = array_of_Tabs[i];
-
-                //switch to this tab
-                if ((tab.url).indexOf(query) > -1){
-                    chrome.tabs.update(tab.id, {selected: true});
-                    i = array_of_Tabs.length;
-                    foundExistingTab = true;
-                }
+            if (queryType == "search_query") {
+                chrome.tabs.create({url:'http://www.' + query + '.com/'});
+            } else {
+                chrome.tabs.create({url:'http://www.' + query});
             }
 
-            if (!foundExistingTab) {
-                if (queryType == "search_query") {
-                    chrome.tabs.create({url:'http://www.' + query + '.com/'});
-                } else {
-                    chrome.tabs.create({url:'http://www.' + query});
-                }
-            }
         });
 
     } else if (intent == "close") {
-        //CLOSE intention
         query = query.replace(/ /g, "");
 
         //gets tabs with specified properties or all if no properties specified
         chrome.tabs.query({}, function(array_of_Tabs){
 
-            if (query == "currenttab" || query == "tab" || query == "thistab") {
+            if (query == "currenttab" || query == "tab" || query == "tabs" || query == "thistab") {
                 closeCurrentTab();
-            }
-
-            if (queryType == "search_query") {
-                query = "." + query + ".";
             }
 
             for (i = 0; i < array_of_Tabs.length; i++){
                 var tab = array_of_Tabs[i];
                 //close this tab
-                console.log(tab.url, query);
                 if ((tab.url).indexOf(query) > -1){
                     console.log(tab.url);
                     chrome.tabs.remove(tab.id);
@@ -86,8 +66,21 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         });
     } else if (intent == "search") {
         chrome.tabs.create({url:query});
-    } else if (intent == "switch") {
+    } else if (intent == "switch_to") {
+        query = query.replace(/ /g, "");
 
+        chrome.tabs.query({}, function(array_of_Tabs){
+            for (i = 0; i < array_of_Tabs.length; i++){
+                var tab = array_of_Tabs[i];
+
+                //switch to this tab
+                if ((tab.url).indexOf(query) > -1){
+                    chrome.tabs.update(tab.id, {selected: true});
+                    i = array_of_Tabs.length;
+                }
+            }
+
+        });
     }
 });
 
