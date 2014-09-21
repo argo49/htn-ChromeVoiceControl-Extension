@@ -31,6 +31,7 @@ window.onload = function () {
     }
 
     var hasScript = false;
+    var hasTransferDiv = false;
 
     chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {
         if (msg.action == 'start-listening') {
@@ -55,6 +56,11 @@ window.onload = function () {
     });
 
     function loadDataTransferDiv() {
+        if (hasTransferDiv) {
+            return;
+        } else {
+            hasTransferDiv = true;
+        }
         var transferDiv = document.createElement('div');
         transferDiv.id  = "myCustomEventDiv";
         document.getElementsByTagName('body')[0].appendChild(transferDiv);
@@ -62,8 +68,12 @@ window.onload = function () {
         var port = chrome.extension.connect();
         document.getElementById('myCustomEventDiv').addEventListener('myCustomEvent', function() {
             var eventData = document.getElementById('myCustomEventDiv').innerText;
+
+            eventData = JSON.parse(eventData);
             console.log(eventData);
-            port.postMessage({message: "myCustomEvent", values: eventData});
+            chrome.runtime.sendMessage(eventData);
+
+
         });
     }
 

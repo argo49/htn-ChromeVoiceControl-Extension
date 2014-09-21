@@ -79,13 +79,14 @@ function record () {
 
         var customEvent = document.createEvent('Event');
         customEvent.initEvent('myCustomEvent', true, true);
+
         function fireCustomEvent(data) {
             hiddenDiv = document.getElementById('myCustomEventDiv');
             hiddenDiv.innerText = JSON.stringify(data);
             hiddenDiv.dispatchEvent(customEvent);
         }
 
-        fireCustomEvent({"intent": intent, "entities": entities})
+        fireCustomEvent({"intent": intent, "entities": entities});
 
         console.log(intent, entities);
 
