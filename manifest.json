@@ -1,8 +1,9 @@
 {
   "manifest_version": 2,
-  "name": "ChromeVoiceControl",
+  "name": "SpeakUp",
   "version": "0.0.1",
   "description": "Open and close tabs using Wit.ai",
+  "options_page": "options.html",
   "content_scripts": [
     {
       "matches": ["*://*/*"],
@@ -17,7 +18,8 @@
   ],
   "permissions" : [
     "tabs",
-    "audioCapture"
+    "audioCapture",
+    "storage"
   ],
   "commands": {
     "start-listening": {
