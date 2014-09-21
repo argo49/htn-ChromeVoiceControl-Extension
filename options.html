@@ -1,33 +1,72 @@
 <!DOCTYPE html>
 <html>
-<head><title>My Test Extension Options</title></head>
+<head>
+    <title>SpeakUp Options</title>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    <link href='http://tylerargo.com/new/css/styles.css' rel='stylesheet' type='text/css'>
+
+    <style type="text/css">
+        h1, h2, h3, h4  {
+            font-weight: normal;
+            font-family: 'Open Sans', sans-serif;
+        }
+        h3 {
+            margin-top: 0;
+        }
+        p, label {
+            font-family: 'Lato';
+        }
+        label, .group .group-urls li {
+            cursor: pointer;
+        }
+
+        input {
+            padding: 10px;
+        }
+
+        .group {
+            padding: 20px;
+            border: 1px solid black;
+            border-radius: 15px;
+            margin: 10px;
+        }
+
+        .group label {
+            padding-right: 10px;
+        }
+
+        .group .new-url {
+            width: 85%;
+        }
+
+    </style>
+</head>
 <body>
+    <div class="container">
+        <div class="row clearfix">
+            <h1>SpeakUp</h1>
+        </div>
+        <div class="row clearfix notification">
+            <h3>It looks like you have no groups!</h3>
+        </div>
+        <div class="row clearfix">
+            <div class="column half">
+                <label id="add-group">+ Add Group</label>
+            </div>
+            <div class="column half">
 
+            </div>
+        </div>
+        <div class="row clearfix">
+            <div class="column half">
 
+            </div>
+        </div>
 
-<div>
-	<table>
-		<col>
-			URL: <input type="text" name="url">
-		</col>		
-		<col>
-			<select>
-  				<option value="volvo">Bundle1</option>
-			</select>
-		</col>
-	</table>
-	<input type="submit" value="Submit">
-</div>
-
-
-<!--     <label>
-  <input type="checkbox" id="like">
-  I like colors.
-</label> -->
-
-<!-- <div id="status"></div>
-<button id="save">Save</button> -->
-
+    </div>
+<script src="scripts/jquery.min.js"></script>
+<script type="text/javascript" src="scripts/options-manipulation.js"></script>
 <script src="options.js"></script>
 </body>
 </html>
