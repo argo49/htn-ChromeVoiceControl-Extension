@@ -4,7 +4,11 @@ $(document).ready(function () {
         insertGroup();
     });
 
-    function loadData() {
+    function saveOptions() {
+
+    }
+
+    function loadOptions() {
 
     }
 
