@@ -120,13 +120,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
                 //switch to this tab
                 if ((tab.url).indexOf(query) > -1){
-
-                    chrome.tabs.query({active: true, currentWindow: true}, function(arrayOfTabs) {
-                        if (tab.id != arrayOfTabs[0].id) {
-                            chrome.tabs.update(tab.id, {selected: true});
-                            i = array_of_Tabs.length;
-                        }
-                    });
+                    chrome.tabs.update(tab.id, {selected: true});
+                    i = array_of_Tabs.length;
                 }
             }
 
