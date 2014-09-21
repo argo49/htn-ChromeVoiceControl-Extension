@@ -31,6 +31,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
     console.log(queryType);
 
+    //OPEN
     if(intent == 'open'){
         query = query.replace(/ /g, "");
 
@@ -45,6 +46,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
         });
 
+    //CLOSE
     } else if (intent == "close") {
         query = query.replace(/ /g, "");
 
@@ -64,10 +66,15 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                 }
             }
         });
+    //SEARCH
     } else if (intent == "search") {
+
+    //SWITCH
+
         query = query.replace(/ /g, "%20");
         query = "%27" + query + "%27";
         chrome.tabs.create({url:'https://api.datamarket.azure.com/Bing/Search/v1/Web?Query=' + query});
+
     } else if (intent == "switch_to") {
         query = query.replace(/ /g, "");
 
@@ -88,6 +95,15 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
             }
 
         });
+    }
+
+    //BUNDLE
+    else if(intent == "use" && entities == dictionary_passed[first_key]){
+        //loop through user's saved bundle
+        for (var key in dictionary_passed){
+            var value = dictionary_passed[key];
+            chrome.tabs.create({url:'http://' + value});//create tab
+        }
     }
 });
 
