@@ -12,6 +12,21 @@ While in a web page press `ctrl+shift+v` or `command+shift+v` if you're on a mac
 
 **Note:** You might have to change chrome permissions to allow for SpeakUp to access your microphone.
 
+#### List of Voice Commands
+**Note:** Replace "example" with the desired website name (i.e. facebook or facebook.com are equally valid)
+
+Open any website in a new tab:
+'open example' or 'open example.com'
+
+Switch to an existing tab:
+'switch to example' or 'switch to example.com'
+
+Close current tab:
+'close tab'
+
+Close another tab in the window:
+'close example' or 'close example.com'
+
 #### Example
 
 I usually use my dropbox and google drive when I study, so I've created a SpeakUp group called "school" with links to drive.google.com and dropbox.com. Now whenever I want to open these tabs, all I have to do is hit ctrl+shift+v say
