@@ -30,6 +30,14 @@ Close current tab:
 Close another tab in the window:
 `close example` or `close example.com`
 
+#### Creating Custom Tab Groups
+
+I) Navigate to Tools < Extensions
+II) Find SpeakUp extension and Click on 'Options'
+III) Enter the group name (i.e. school)
+IV) Enter a website url in the text field
+V) Create more custom groups if desired
+
 #### Example
 
 I usually use my dropbox and google drive when I study, so I`ve created a SpeakUp group called "school" with links to drive.google.com and dropbox.com. Now whenever I want to open these tabs, all I have to do is hit ctrl+shift+v say
