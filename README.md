@@ -16,26 +16,35 @@ While in a web page press `ctrl+shift+v` or `command+shift+v` if you're on a mac
 **Note:** Replace "example" with the desired website name (i.e. facebook or facebook.com are equally valid)
 
 Open any website in a new tab:
+
 `open example` or `open example.com`
 
 Open customized group:
+
 `open yourgroupname`
 
 Switch to an existing tab:
+
 `switch to example` or `switch to example.com`
 
 Close current tab:
+
 `close tab`
 
 Close another tab in the window:
+
 `close example` or `close example.com`
 
 #### Creating Custom Tab Groups
 
-I) Navigate to Tools < Extensions
+I) Navigate to Tools > Extensions
+
 II) Find SpeakUp extension and Click on 'Options'
+
 III) Enter the group name (i.e. school)
+
 IV) Enter a website url in the text field
+
 V) Create more custom groups if desired
 
 #### Example
